@@ -290,18 +290,44 @@ public class AlgorithmsRace {
 	
 	public boolean delateBinaryTree(long n) {
 		SearchBinaryTree actual = binaryTree;
-		if(actual.getNum()==n){
-			SearchBinaryTree nuevo = actual.getRight();
-			
-		}
 		boolean result = false;
+		SearchBinaryTree delate=null; 
 		while(actual!=null && result ==false) {
 			if(actual.getNum()==n){
-				SearchBinaryTree nuevo = actual.getRight();
-				
+				delate = actual;
 			}
 		}
+		SearchBinaryTree prev=null;
+		if(actual.getRight()!=null) {
+			actual = actual.getRight();
+		}else if(actual.getLeft()!=null) {
+			actual = actual.getLeft();
+		}else {
+			actual = null;
+		}
+		if(delate!=null) {
+			while(actual.getRight()!=null) {
+				prev = actual;
+				actual = actual.getRight();
+			}
+			if(prev!=null) {
+				prev.setRight(actual.getLeft());
+				actual.setLeft(delate.getLeft());
+				actual.setRight(delate.getRight());
+				delate = null;
+				if(binaryTree==null) {
+					binaryTree = actual;
+				}
+			}else {
+				binaryTree = null;
+			}
+			result = true;
+		}
+		
+		return result;
 	}
+	
+	
 	
 	public ArrayList<Long> getArrayList() {
 		return arrayList;

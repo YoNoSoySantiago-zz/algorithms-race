@@ -304,6 +304,7 @@ public class AlgorithmsRace {
 			actual = actual.getLeft();
 		}else {
 			actual = null;
+			delate = null;
 		}
 		if(delate!=null) {
 			while(actual.getRight()!=null) {
@@ -327,7 +328,59 @@ public class AlgorithmsRace {
 		return result;
 	}
 	
+	public boolean delateBinaryTreeR(long n) {
+		boolean result = false;
+		if(binaryTree==null) {
+			return false;
+		}else {
+			SearchBinaryTree delate = delateBinaryTreeRB(n,binaryTree);
+			if(delate!=null) {
+				result = true;
+				SearchBinaryTree actual = delate;
+				if(actual.getRight()!=null) {
+					actual = actual.getRight();
+				}else if(actual.getLeft()!=null) {
+					actual = actual.getLeft();
+				}else {
+					actual = null;
+					delate = null;
+				}
+				if(delate!=null) {
+					actual = delateBinaryTreeRR(actual,delate);
+					actual.setLeft(delate.getLeft());
+					actual.setRight(delate.getRight());
+					delate = null;
+				}
+				
+			}
+		}
+		return result;
+	}
 	
+	private SearchBinaryTree delateBinaryTreeRB(long n,SearchBinaryTree actual) {
+		if(actual==null) {
+			return actual;
+		}
+		if(n<actual.getNum()) {
+			actual = actual.getLeft();
+		
+		}else if(n>actual.getNum()){
+			actual = actual.getRight();
+		}else {
+			return actual;
+		}
+		return delateBinaryTreeRB(n,actual);
+	}
+	
+	private SearchBinaryTree delateBinaryTreeRR(SearchBinaryTree actual, SearchBinaryTree prev) {
+		if(actual.getRight()==null) {
+			prev.setRight(actual.getLeft());
+			return actual;
+		}
+		prev = actual;
+		actual = actual.getRight();
+		return delateBinaryTreeRR(actual,prev);
+	}
 	
 	public ArrayList<Long> getArrayList() {
 		return arrayList;

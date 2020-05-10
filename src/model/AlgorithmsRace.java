@@ -113,7 +113,8 @@ public class AlgorithmsRace {
 					}
 					break;
 				}
-				
+				arrayList = new ArrayList<Long>();
+				break;
 			case 2:
 				switch(algorithm) {
 				case 1:
@@ -135,7 +136,8 @@ public class AlgorithmsRace {
 					}
 					break;
 				}
-			
+				linkedList=null;
+				break;
 			case 3:
 				switch(algorithm) {
 				case 1:
@@ -159,10 +161,6 @@ public class AlgorithmsRace {
 				}
 			}
 		}
-		arrayList = new ArrayList<Long>();
-		linkedList = null;
-		binaryTree = null;
-		//ListLongN = null;
 	}
 	
 	public void prepareRace(long n) {

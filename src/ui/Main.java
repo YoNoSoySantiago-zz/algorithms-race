@@ -13,12 +13,13 @@ public class Main extends Application{
 	private AlgorithmsRace algorithmsRace;
 	public Main() {
 		algorithmsRace = new AlgorithmsRace();
-		algorithmsRaceGUI = new AlgorithmsRaceGUI(algorithmsRace);
+		
 	}
 
 	@Override
 	public void start(Stage stage) throws Exception {
-		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("WelcomeFX.fxml"));
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("StartFX.fxml"));
+		algorithmsRaceGUI = new AlgorithmsRaceGUI(algorithmsRace,stage);
 		fxmlLoader.setController(algorithmsRaceGUI);
 		
 		Parent root = fxmlLoader.load();

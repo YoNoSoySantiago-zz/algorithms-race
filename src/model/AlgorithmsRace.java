@@ -1,16 +1,187 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class AlgorithmsRace {
 	private ArrayList<Long> arrayList;
 	private LinkedList linkedList;
 	private SearchBinaryTree binaryTree;
 	
+	//private ArrayList<Long> listLongN;
+	private double progress;
+	
 	public AlgorithmsRace() {
 		arrayList=new ArrayList<Long>();
+		//listLongN=new ArrayList<Long>();
 		linkedList=null;
 		binaryTree=null;
+		progress = 0;
+	}
+	
+	public void startRace(int algorithm, int mode, int data,long n) {
+		Random rnd = new Random();
+		long k=0;
+		if(mode ==1) {
+			switch(data) {
+			case 1:
+				switch(algorithm) {
+				case 1:
+					for (int i = 0; i < n; i++) {
+						k= rnd.nextLong();
+						addArrayList(k);
+					}
+					break;
+				case 2:
+					for (int i = 0; i < n; i++) {
+						k= rnd.nextLong();
+						searchArrayList(k);
+					}
+					break;
+				case 3:
+					for (int i = 0; i < n; i++) {
+						k= rnd.nextLong();
+						delateArrayList(k);
+					}
+					break;
+				}
+				
+			case 2:
+				switch(algorithm) {
+				case 1:
+					for (int i = 0; i < n; i++) {
+						k= rnd.nextLong();
+						addLinkedList(k);
+					}
+					break;
+				case 2:
+					for (int i = 0; i < n; i++) {
+						k= rnd.nextLong();
+						searchLinkedList(k);
+					}
+					break;
+				case 3:
+					for (int i = 0; i < n; i++) {
+						k= rnd.nextLong();
+						delateLinkedList(k);
+					}
+					break;
+				}
+			
+			case 3:
+				switch(algorithm) {
+				case 1:
+					for (int i = 0; i < n; i++) {
+						k= rnd.nextLong();
+						addBinaryTree(k);
+					}
+					break;
+				case 2:
+					for (int i = 0; i < n; i++) {
+						k= rnd.nextLong();
+						searchBinaryTree(k);
+					}
+					break;
+				case 3:
+					for (int i = 0; i < n; i++) {
+						k= rnd.nextLong();
+						delateBinaryTree(k);
+					}
+					break;
+				}
+			}
+		}else if(mode ==2) {
+			switch(data) {
+			case 1:
+				switch(algorithm) {
+				case 1:
+					for (int i = 0; i < n; i++) {
+						k= rnd.nextLong();
+						addArrayList(k);
+					}
+					break;
+				case 2:
+					for (int i = 0; i < n; i++) {
+						k= rnd.nextLong();
+						searchArrayListR(k);
+					}
+					break;
+				case 3:
+					for (int i = 0; i < n; i++) {
+						k= rnd.nextLong();
+						delateArrayListR(k);
+					}
+					break;
+				}
+				
+			case 2:
+				switch(algorithm) {
+				case 1:
+					for (int i = 0; i < n; i++) {
+						k= rnd.nextLong();
+						addLinkedListR(k);
+					}
+					break;
+				case 2:
+					for (int i = 0; i < n; i++) {
+						k= rnd.nextLong();
+						searchLinkedListR(k);
+					}
+					break;
+				case 3:
+					for (int i = 0; i < n; i++) {
+						k= rnd.nextLong();
+						delateLinkedListR(k);
+					}
+					break;
+				}
+			
+			case 3:
+				switch(algorithm) {
+				case 1:
+					for (int i = 0; i < n; i++) {
+						k= rnd.nextLong();
+						addBinaryTreeR(k);
+					}
+					break;
+				case 2:
+					for (int i = 0; i < n; i++) {
+						k= rnd.nextLong();
+						searchBinaryTreeR(k);
+					}
+					break;
+				case 3:
+					for (int i = 0; i < n; i++) {
+						k= rnd.nextLong();
+						delateBinaryTreeR(k);
+					}
+					break;
+				}
+			}
+		}
+		arrayList = new ArrayList<Long>();
+		linkedList = null;
+		binaryTree = null;
+		//ListLongN = null;
+	}
+	
+	public void prepareRace(long n) {
+		Random rnd = new Random();
+		//progress = 0;
+		//long total = many?(2*n)-1:n-1;
+		/*for (int i = 0; i < n; i++) {
+			listLongN.add(rnd.nextLong());
+			//progress = i/total;
+		}
+		*/
+		for (int i = 0; i < n; i++) {
+			  //progress = (i+n)/total;
+				long k = rnd.nextLong();
+				arrayList.add(k);
+				addLinkedList(k);
+				addBinaryTree(k);
+		}
+		
 	}
 	
 	public void addArrayList(long n) {
@@ -382,15 +553,13 @@ public class AlgorithmsRace {
 		return delateBinaryTreeRR(actual,prev);
 	}
 	
-	public ArrayList<Long> getArrayList() {
-		return arrayList;
+	public double progressBar(long n, long k) {
+		return n/k;
 	}
 
-	public LinkedList getLinkedList() {
-		return linkedList;
+	public double getProgress() {
+		return progress;
 	}
-
-	public SearchBinaryTree getBinaryTree() {
-		return binaryTree;
-	}
+	
+	
 }

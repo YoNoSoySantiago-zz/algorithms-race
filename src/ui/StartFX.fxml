@@ -101,7 +101,7 @@
             <Font size="23.0" />
          </font>
       </Label>
-      <Circle fx:id="bigCurcule" fill="WHITE" layoutX="719.0" layoutY="80.0" radius="45.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fx:id="bigCircule" fill="WHITE" layoutX="719.0" layoutY="80.0" radius="45.0" stroke="BLACK" strokeType="INSIDE" />
       <Circle fx:id="littleCircule" fill="WHITE" layoutX="719.0" layoutY="80.0" radius="5.0" stroke="BLACK" strokeType="INSIDE" />
       <ProgressBar fx:id="loadingProgress" layoutX="300.0" layoutY="361.0" prefWidth="200.0" progress="0.0" />
       <Label fx:id="labelLoading" layoutX="376.0" layoutY="362.0" text="Loading.." />

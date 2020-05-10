@@ -4,11 +4,9 @@ import model.AlgorithmsRace;
 
 public class PrepareRaceThread extends Thread{
 	private AlgorithmsRace algorithmsRace;
-	private boolean many;
 	private long n;
-	public PrepareRaceThread(AlgorithmsRace algorithmsRace, boolean algorithm,long n) {
+	public PrepareRaceThread(AlgorithmsRace algorithmsRace,long n) {
 		this.algorithmsRace=algorithmsRace;
-		many = algorithm;
 		this.n = n;
 	}
 	

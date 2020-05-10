@@ -12,14 +12,14 @@ import ui.AlgorithmsRaceGUI;
 public class ChronometerThread extends Thread{
 	private Timer t;
 	private int minutes,seconds,cSeconds;
-	private AlgorithmsRaceGUI algorithmsRaceGUI;
 	private ActionListener acciones;
+	AlgorithmsRaceGUI algorithmsRaceGUI;
 	
 	public ChronometerThread(AlgorithmsRaceGUI algorithmsRaceGUI) {
-		this.algorithmsRaceGUI = algorithmsRaceGUI;
 		minutes = 0;
 		seconds=0;
 		cSeconds=0;
+		this.algorithmsRaceGUI=algorithmsRaceGUI;
 		acciones = new ActionListener() {
 
 			@Override
@@ -33,12 +33,6 @@ public class ChronometerThread extends Thread{
 					minutes++;
 					seconds=0;
 				}
-				algorithmsRaceGUI.updateTime(minutes, seconds, cSeconds);
-				Platform.runLater(new Thread() {
-					public void run() {
-						algorithmsRaceGUI.updateTimer();
-					}
-				});
 			}
 			
 		};
@@ -47,10 +41,21 @@ public class ChronometerThread extends Thread{
 	
 	@Override
 	public void run() {
-		while(algorithmsRaceGUI.isRunning()){
-			t.start();
+		t.start();
+		while(algorithmsRaceGUI.isRunning()) {
+			algorithmsRaceGUI.updateTime(minutes, seconds, cSeconds);
+			Platform.runLater(new Thread() {
+				public void run() {
+					algorithmsRaceGUI.updateTimer();
+					algorithmsRaceGUI.updateCircule();
+				}
+			});
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e1) {
+				e1.printStackTrace();
+			}
 		}
 		t.stop();
-			
 	}
 }

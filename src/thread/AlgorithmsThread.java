@@ -24,6 +24,12 @@ public class AlgorithmsThread extends Thread{
 	@Override
 	public void run() {
 		algorithmsRace.startRace(algorithm, mode, data,n);
+		try {
+			Thread.sleep(100);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		Platform.runLater(new Thread() {
 			public void run() {
 				if(data ==1) {

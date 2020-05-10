@@ -1,7 +1,7 @@
 package ui;
 
 import java.io.IOException;
-import javafx.application.Platform;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -27,11 +27,13 @@ public class AlgorithmsRaceGUI {
 	private boolean isRunning;
 	private String time;
 	private Stage window;
+	private boolean move;
 	public AlgorithmsRaceGUI(AlgorithmsRace ar,Stage win) {
 		window = win;
 		algorithmsRace =ar;
 		isRunning = false;
 		time = " ";
+		move = true;
 	}
 	
 	public void initialize() throws IOException {
@@ -87,7 +89,7 @@ public class AlgorithmsRaceGUI {
     private Label timer;
 
     @FXML
-    private Circle bigCurcule;
+    private Circle bigCircule;
 
     @FXML
     private Circle littleCircule;
@@ -145,9 +147,7 @@ public class AlgorithmsRaceGUI {
     @FXML
     void btnPrepare(ActionEvent event) throws InterruptedException {
     	try {
-    		
-        	
-        	PrepareRaceThread preparing = new PrepareRaceThread(algorithmsRace,addSelect.isSelected()?false:true,Integer.parseInt(textN.getText()));
+        	PrepareRaceThread preparing = new PrepareRaceThread(algorithmsRace,Long.parseLong(textN.getText()));
         	
         	/////////////////////////////////////////////////////////////////////////////////////////////////////
         	isRunning=true;
@@ -162,23 +162,6 @@ public class AlgorithmsRaceGUI {
         		preparing.start();
         		preparing.join();
         	}
-        	
-        	/*new Thread() {
-        		public void run() {
-        			while(isRunning) {
-        				Platform.runLater(new Thread() {
-            				public void run() {
-            					updateProgress();
-            				}
-            			});
-					}
-        			try {
-						Thread.sleep(10);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-        		}
-        	}.start();*/
         	
         	isRunning=false;
         	btnRun.setVisible(true);
@@ -203,6 +186,7 @@ public class AlgorithmsRaceGUI {
     	AlgorithmsThread binaryTreeThread = new AlgorithmsThread(this,algorithmsRace,algorithm,mode,3,n);
     	isRunning = true;
     	timer.start();
+    	
     	arrayListThread.start();
     	linkedListThread.start();
     	binaryTreeThread.start();
@@ -238,22 +222,42 @@ public class AlgorithmsRaceGUI {
     
     public void updateTime(int m,int s,int cs) {
     	String time="";
-    	if(cs<9) {
+    	if(cs<10) {
     		time = "0"+ Integer.toString(cs);
     	}else {
     		time = Integer.toString(cs);
     	}
-    	if(s<9) {
+    	if(s<10) {
     		time = "0"+ Integer.toString(s)+":"+time;
     	}else {
     		time = Integer.toString(s)+":"+time;
     	}
-    	if(m<9) {
+    	if(m<10) {
     		time = "0"+ Integer.toString(m)+":"+time;
     	}else {
     		time = Integer.toString(m)+":"+time;
     	}
     	this.time=time;
+    }
+    
+    public void updateCircule() {
+    	if(move) {
+    		bigCircule.setRadius(bigCircule.getRadius()-1);
+    		littleCircule.setRadius(littleCircule.getRadius()+1);
+    	}else {
+    		bigCircule.setRadius(bigCircule.getRadius()+1);
+    		littleCircule.setRadius(littleCircule.getRadius()-1);
+    	}
+    	
+    	if(littleCircule.getRadius()<bigCircule.getRadius()) {
+    		littleCircule.toFront();
+    	}else bigCircule.toFront();
+    	
+    	if(bigCircule.getRadius()>=45) {
+    		move =true;
+    	}else if(bigCircule.getRadius()<=5) {
+    		move = false;
+    	}
     }
     
     public void updateTimer() {

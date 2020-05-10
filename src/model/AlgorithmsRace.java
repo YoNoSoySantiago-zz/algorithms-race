@@ -20,6 +20,11 @@ public class AlgorithmsRace {
 	}
 	
 	public void startRace(int algorithm, int mode, int data,long n) {
+		/*System.out.println("Teoria:");
+		System.out.println("algotirhm "+algorithm);
+		System.out.println("data:"+data);
+		System.out.println("N:"+n);
+		*/
 		Random rnd = new Random();
 		long k=0;
 		if(mode ==1) {
@@ -27,13 +32,16 @@ public class AlgorithmsRace {
 			case 1:
 				switch(algorithm) {
 				case 1:
+					
 					for (int i = 0; i < n; i++) {
+						
 						k= rnd.nextLong();
 						addArrayList(k);
 					}
 					break;
 				case 2:
 					for (int i = 0; i < n; i++) {
+						
 						k= rnd.nextLong();
 						searchArrayList(k);
 					}
@@ -45,7 +53,7 @@ public class AlgorithmsRace {
 					}
 					break;
 				}
-				
+				break;	
 			case 2:
 				switch(algorithm) {
 				case 1:
@@ -67,7 +75,7 @@ public class AlgorithmsRace {
 					}
 					break;
 				}
-			
+				break;
 			case 3:
 				switch(algorithm) {
 				case 1:
@@ -113,7 +121,6 @@ public class AlgorithmsRace {
 					}
 					break;
 				}
-				arrayList = new ArrayList<Long>();
 				break;
 			case 2:
 				switch(algorithm) {
@@ -136,7 +143,6 @@ public class AlgorithmsRace {
 					}
 					break;
 				}
-				linkedList=null;
 				break;
 			case 3:
 				switch(algorithm) {
@@ -161,10 +167,16 @@ public class AlgorithmsRace {
 				}
 			}
 		}
+		if(algorithm==1) {
+			arrayList = new ArrayList<Long>();
+		}else if(algorithm==2) {
+			linkedList = null;
+		}else {
+			binaryTree = null;
+		}
 	}
 	
 	public void prepareRace(long n) {
-		System.out.println(n);
 		Random rnd = new Random();
 		
 		
@@ -268,7 +280,6 @@ public class AlgorithmsRace {
 	public boolean searchArrayList(long n) {
 		boolean result = false;
 		for (int i = 0; i < arrayList.size(); i++) {
-			System.out.println(arrayList.size());
 			if(arrayList.get(i)==n) {
 				result = true;
 				break;

@@ -14,6 +14,6 @@ public class PrepareRaceThread extends Thread{
 	
 	@Override
 	public void run() {
-		algorithmsRace.prepareRace( n);
+		algorithmsRace.prepareRace(n);
 	}
 }

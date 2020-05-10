@@ -158,7 +158,11 @@ public class AlgorithmsRaceGUI {
         	iterativeSelect.setDisable(true);
         	recursiveSelect.setDisable(true);
         	//////////////////////////////////////////////////////////
-        	preparing.start();
+        	if(!addSelect.isSelected()) {
+        		preparing.start();
+        		preparing.join();
+        	}
+        	
         	/*new Thread() {
         		public void run() {
         			while(isRunning) {
@@ -175,7 +179,7 @@ public class AlgorithmsRaceGUI {
 					}
         		}
         	}.start();*/
-        	preparing.join();
+        	
         	isRunning=false;
         	btnRun.setVisible(true);
         	
@@ -198,10 +202,11 @@ public class AlgorithmsRaceGUI {
     	AlgorithmsThread linkedListThread = new AlgorithmsThread(this,algorithmsRace,algorithm,mode,2,n);
     	AlgorithmsThread binaryTreeThread = new AlgorithmsThread(this,algorithmsRace,algorithm,mode,3,n);
     	isRunning = true;
+    	timer.start();
     	arrayListThread.start();
     	linkedListThread.start();
     	binaryTreeThread.start();
-    	timer.start();
+    	
     	arrayListThread.join();
     	linkedListThread.join();
     	binaryTreeThread.join();

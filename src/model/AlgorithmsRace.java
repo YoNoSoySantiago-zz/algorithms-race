@@ -166,20 +166,15 @@ public class AlgorithmsRace {
 	}
 	
 	public void prepareRace(long n) {
+		System.out.println(n);
 		Random rnd = new Random();
-		//progress = 0;
-		//long total = many?(2*n)-1:n-1;
-		/*for (int i = 0; i < n; i++) {
-			listLongN.add(rnd.nextLong());
-			//progress = i/total;
-		}
-		*/
+		
+		
 		for (int i = 0; i < n; i++) {
-			  //progress = (i+n)/total;
-				long k = rnd.nextLong();
-				arrayList.add(k);
-				addLinkedList(k);
-				addBinaryTree(k);
+			long k = rnd.nextLong();
+			arrayList.add(k);
+			addLinkedList(k);
+			addBinaryTree(k);
 		}
 		
 	}
@@ -275,6 +270,7 @@ public class AlgorithmsRace {
 	public boolean searchArrayList(long n) {
 		boolean result = false;
 		for (int i = 0; i < arrayList.size(); i++) {
+			System.out.println(arrayList.size());
 			if(arrayList.get(i)==n) {
 				result = true;
 				break;

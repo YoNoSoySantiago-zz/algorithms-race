@@ -177,6 +177,8 @@ public class AlgorithmsRaceGUI {
     @FXML
     void btnRun(ActionEvent event) throws InterruptedException {
     	btnRun.setDisable(true);
+    	btnRun.setVisible(false);
+    	
     	int algorithm = addSelect.isSelected()?1:searchSelect.isSelected()?2:3;
     	int mode = iterativeSelect.isSelected()?1:2;
     	long n = Long.parseLong(textN.getText());
@@ -185,6 +187,7 @@ public class AlgorithmsRaceGUI {
     	AlgorithmsThread linkedListThread = new AlgorithmsThread(this,algorithmsRace,algorithm,mode,2,n);
     	AlgorithmsThread binaryTreeThread = new AlgorithmsThread(this,algorithmsRace,algorithm,mode,3,n);
     	isRunning = true;
+    	/////////////////////////////////////////////////////////////
     	timer.start();
     	
     	arrayListThread.start();
@@ -197,7 +200,6 @@ public class AlgorithmsRaceGUI {
     	isRunning = false;
     	
     	//////////////////////////////////////////////////////////
-    	btnRun.setVisible(false);
     	btnRun.setDisable(false);
     	btnPrepare.setDisable(false);
     	addSelect.setDisable(false);

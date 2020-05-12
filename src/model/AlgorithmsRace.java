@@ -66,6 +66,7 @@ public class AlgorithmsRace {
 					for (int i = 0; i < n; i++) {
 						k= rnd.nextLong();
 						searchLinkedList(k);
+						
 					}
 					break;
 				case 3:
@@ -167,9 +168,9 @@ public class AlgorithmsRace {
 				}
 			}
 		}
-		if(algorithm==1) {
-			arrayList = new ArrayList<Long>();
-		}else if(algorithm==2) {
+		if(data==1) {
+			arrayList.clear();
+		}else if(data==2) {
 			linkedList = null;
 		}else {
 			binaryTree = null;
@@ -345,6 +346,7 @@ public class AlgorithmsRace {
 	public boolean searchBinaryTree(long n) {
 		Boolean result = false;
 		if(binaryTree==null) {
+			
 			return false;
 		}else {
 			SearchBinaryTree actual = binaryTree;
@@ -468,12 +470,28 @@ public class AlgorithmsRace {
 		SearchBinaryTree actual = binaryTree;
 		boolean result = false;
 		SearchBinaryTree delate=null; 
+		
+		SearchBinaryTree prev=null;
 		while(actual!=null && result ==false) {
+			
 			if(actual.getNum()==n){
 				delate = actual;
+				result = true;
+			}else if(n<actual.getNum()) {
+				if(actual.getLeft()!=null) {
+					actual = actual.getLeft();
+				}else {
+					break;
+				}
+				
+			}else {
+				if(actual.getRight()!=null) {
+					actual=actual.getRight();
+				}else {
+					break;
+				}
 			}
 		}
-		SearchBinaryTree prev=null;
 		if(actual.getRight()!=null) {
 			actual = actual.getRight();
 		}else if(actual.getLeft()!=null) {
@@ -482,6 +500,7 @@ public class AlgorithmsRace {
 			actual = null;
 			delate = null;
 		}
+		
 		if(delate!=null) {
 			while(actual.getRight()!=null) {
 				prev = actual;
@@ -498,7 +517,6 @@ public class AlgorithmsRace {
 			}else {
 				binaryTree = null;
 			}
-			result = true;
 		}
 		
 		return result;

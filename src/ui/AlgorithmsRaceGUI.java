@@ -28,12 +28,17 @@ public class AlgorithmsRaceGUI {
 	private String time;
 	private Stage window;
 	private boolean move;
+	private boolean arrayListRunning,linkedListRunning,binaryTreeRunning;
+	
 	public AlgorithmsRaceGUI(AlgorithmsRace ar,Stage win) {
 		window = win;
 		algorithmsRace =ar;
 		isRunning = false;
 		time = " ";
 		move = true;
+		arrayListRunning=false;
+		linkedListRunning=false;
+		binaryTreeRunning=false;
 	}
 	
 	public void initialize() throws IOException {
@@ -147,7 +152,7 @@ public class AlgorithmsRaceGUI {
     @FXML
     void btnPrepare(ActionEvent event) throws InterruptedException {
     	try {
-        	PrepareRaceThread preparing = new PrepareRaceThread(algorithmsRace,Long.parseLong(textN.getText()));
+        	PrepareRaceThread preparing = new PrepareRaceThread(this,algorithmsRace,Long.parseLong(textN.getText()));
         	
         	/////////////////////////////////////////////////////////////////////////////////////////////////////
         	isRunning=true;
@@ -157,27 +162,52 @@ public class AlgorithmsRaceGUI {
         	delateSelect.setDisable(true);
         	iterativeSelect.setDisable(true);
         	recursiveSelect.setDisable(true);
+        	time = "00:00:00";
+        	updateTimerAL();
+        	updateTimerLE();
+        	updateTimerAbb();
         	//////////////////////////////////////////////////////////
         	if(!addSelect.isSelected()) {
         		preparing.start();
-        		preparing.join();
+        	}else {
+        		eneableStart();
         	}
         	
-        	isRunning=false;
-        	btnRun.setVisible(true);
         	
     	}catch(NumberFormatException e) {
     		Alert alert = new Alert(AlertType.INFORMATION);
     		alert.setTitle("Error in format");
     		alert.setHeaderText("Please type only numbers");
+    		alert.showAndWait();
     	}
     	
+    }
+    
+    public void  eneableStart() {
+    	isRunning=false;
+    	btnRun.setVisible(true);
+    }
+    
+    public void finishRun() {
+    	if(!arrayListRunning&&!linkedListRunning&!binaryTreeRunning) {
+    		isRunning = false;
+    		btnRun.setDisable(false);
+        	btnPrepare.setDisable(false);
+        	addSelect.setDisable(false);
+        	searchSelect.setDisable(false);
+        	delateSelect.setDisable(false);
+        	iterativeSelect.setDisable(false);
+        	recursiveSelect.setDisable(false);
+    	}
     }
     
     @FXML
     void btnRun(ActionEvent event) throws InterruptedException {
     	btnRun.setDisable(true);
     	btnRun.setVisible(false);
+    	arrayListRunning =true;
+    	linkedListRunning = true;
+    	binaryTreeRunning = true;
     	
     	int algorithm = addSelect.isSelected()?1:searchSelect.isSelected()?2:3;
     	int mode = iterativeSelect.isSelected()?1:2;
@@ -194,22 +224,23 @@ public class AlgorithmsRaceGUI {
     	linkedListThread.start();
     	binaryTreeThread.start();
     	
-    	arrayListThread.join();
-    	linkedListThread.join();
-    	binaryTreeThread.join();
-    	isRunning = false;
+    	////////////////////////////////////////////////////////////
     	
-    	//////////////////////////////////////////////////////////
-    	btnRun.setDisable(false);
-    	btnPrepare.setDisable(false);
-    	addSelect.setDisable(false);
-    	searchSelect.setDisable(false);
-    	delateSelect.setDisable(false);
-    	iterativeSelect.setDisable(false);
-    	recursiveSelect.setDisable(false);
     }
     
-    public void buttons() {
+    public void setArrayListRunning(boolean arrayListRunning) {
+		this.arrayListRunning = arrayListRunning;
+	}
+
+	public void setLinkedListRunning(boolean linkedListRunning) {
+		this.linkedListRunning = linkedListRunning;
+	}
+
+	public void setBinaryTreeRunning(boolean binaryTreeRunning) {
+		this.binaryTreeRunning = binaryTreeRunning;
+	}
+
+	public void buttons() {
   
     	if(iterativeSelect.isSelected() || recursiveSelect.isSelected()) {
     		if(addSelect.isSelected()||searchSelect.isSelected()||delateSelect.isSelected()) {

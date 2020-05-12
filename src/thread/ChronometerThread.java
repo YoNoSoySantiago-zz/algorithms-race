@@ -33,6 +33,14 @@ public class ChronometerThread extends Thread{
 					minutes++;
 					seconds=0;
 				}
+				algorithmsRaceGUI.updateTime(minutes, seconds, cSeconds);
+				Platform.runLater(new Thread() {
+					public void run() {
+						algorithmsRaceGUI.updateTimer();
+						algorithmsRaceGUI.updateCircule();
+					}
+				});
+				
 			}
 			
 		};
@@ -43,19 +51,13 @@ public class ChronometerThread extends Thread{
 	public void run() {
 		t.start();
 		while(algorithmsRaceGUI.isRunning()) {
-			algorithmsRaceGUI.updateTime(minutes, seconds, cSeconds);
-			Platform.runLater(new Thread() {
-				public void run() {
-					algorithmsRaceGUI.updateTimer();
-					algorithmsRaceGUI.updateCircule();
-				}
-			});
 			try {
-				Thread.sleep(10);
+				Thread.sleep(1);
 			} catch (InterruptedException e1) {
 				e1.printStackTrace();
 			}
 		}
+		
 		t.stop();
 	}
 }

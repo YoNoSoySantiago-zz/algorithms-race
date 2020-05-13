@@ -8,23 +8,16 @@ public class AlgorithmsRace {
 	private LinkedList linkedList;
 	private SearchBinaryTree binaryTree;
 	
-	//private ArrayList<Long> listLongN;
 	private double progress;
 	
 	public AlgorithmsRace() {
 		arrayList=new ArrayList<Long>();
-		//listLongN=new ArrayList<Long>();
 		linkedList=null;
 		binaryTree=null;
 		progress = 0;
 	}
 	
-	public void startRace(int algorithm, int mode, int data,long n) {
-		/*System.out.println("Teoria:");
-		System.out.println("algotirhm "+algorithm);
-		System.out.println("data:"+data);
-		System.out.println("N:"+n);
-		*/
+	public void startRace(int algorithm, int mode, int data,long n) throws StackOverflowError {
 		Random rnd = new Random();
 		long k=0;
 		if(mode ==1) {
@@ -179,9 +172,8 @@ public class AlgorithmsRace {
 	
 	public void prepareRace(long n) {
 		Random rnd = new Random();
-		
-		
 		for (int i = 0; i < n; i++) {
+			progressBar(i+1,n);
 			long k = rnd.nextLong();
 			arrayList.add(k);
 			addLinkedList(k);
@@ -207,7 +199,7 @@ public class AlgorithmsRace {
 		}
 	}
 	
-	public void addLinkedListR(long n) {
+	public void addLinkedListR(long n) throws StackOverflowError {
 		if(linkedList!=null) {
 			addLinkedListR(n,linkedList);
 		}else {
@@ -216,7 +208,7 @@ public class AlgorithmsRace {
 		}
 		
 	}
-	private void addLinkedListR(long n,LinkedList actual) {
+	private void addLinkedListR(long n,LinkedList actual) throws StackOverflowError {
 		if(actual.getNext() == null) {
 			LinkedList nuevo = new LinkedList(n);
 			actual.setNext(nuevo);
@@ -253,7 +245,7 @@ public class AlgorithmsRace {
 		}
 	}
 	
-	public void addBinaryTreeR(long n) {
+	public void addBinaryTreeR(long n)throws StackOverflowError  {
 		if(binaryTree==null) {
 			binaryTree = new SearchBinaryTree(n);
 		}else {
@@ -261,7 +253,7 @@ public class AlgorithmsRace {
 		}
 		
 	}
-	private void addBinaryTreeR(long n,SearchBinaryTree actual) {
+	private void addBinaryTreeR(long n,SearchBinaryTree actual) throws StackOverflowError {
 		SearchBinaryTree nuevo = new SearchBinaryTree(n);
 		if(n<actual.getNum()) {
 			if(actual.getLeft()!=null) {
@@ -289,7 +281,7 @@ public class AlgorithmsRace {
 		return result;
 	}
 	
-	public boolean searchArrayListR(long n) {
+	public boolean searchArrayListR(long n) throws StackOverflowError {
 		if(arrayList.size()==0) {
 			return false;
 		}else {
@@ -297,7 +289,7 @@ public class AlgorithmsRace {
 		}
 	}
 	
-	private boolean searchArrayListR(long n, int i) {
+	private boolean searchArrayListR(long n, int i) throws StackOverflowError {
 		if(arrayList.get(i)==n) {
 			return true;
 		}else {
@@ -322,7 +314,7 @@ public class AlgorithmsRace {
 		return result;
 	}
 	
-	public boolean searchLinkedListR(long n) {
+	public boolean searchLinkedListR(long n) throws StackOverflowError {
 		if(linkedList==null) {
 			return false;
 		}else {
@@ -331,7 +323,7 @@ public class AlgorithmsRace {
 		}
 	}
 	
-	private boolean searchLinkedListR(long n, LinkedList actual) {
+	private boolean searchLinkedListR(long n, LinkedList actual) throws StackOverflowError {
 		if(actual==null) {
 			return false;
 		}
@@ -363,11 +355,11 @@ public class AlgorithmsRace {
 		return result;
 	}
 	
-	public boolean searchBinaryTreeR(long n) {
+	public boolean searchBinaryTreeR(long n) throws StackOverflowError {
 		return searchBinaryTreeR(n,binaryTree);
 	}
 	
-	private boolean searchBinaryTreeR(long n,SearchBinaryTree actual) {
+	private boolean searchBinaryTreeR(long n,SearchBinaryTree actual) throws StackOverflowError {
 		if(actual==null) {
 			return false;
 		}
@@ -394,7 +386,7 @@ public class AlgorithmsRace {
 		return result;
 	}
 	
-	public boolean delateArrayListR(long n) {
+	public boolean delateArrayListR(long n)throws StackOverflowError  {
 		if(arrayList.size()>0) {
 			return delateArrayListR(n,arrayList.size()-1);
 		}else {
@@ -402,7 +394,7 @@ public class AlgorithmsRace {
 		}
 	}
 	
-	private boolean delateArrayListR(long n,int i) {
+	private boolean delateArrayListR(long n,int i)throws StackOverflowError  {
 		if(arrayList.get(i)==n) {
 			return true;
 		}
@@ -437,7 +429,7 @@ public class AlgorithmsRace {
 		
 	}
 	
-	public boolean delateLinkedListR(long n) {
+	public boolean delateLinkedListR(long n)throws StackOverflowError  {
 		if(linkedList==null) {
 			return false;
 		}else {
@@ -452,7 +444,7 @@ public class AlgorithmsRace {
 		}
 	}
 	
-	private boolean delateLinkedListR(long n, LinkedList actual,LinkedList prev) {
+	private boolean delateLinkedListR(long n, LinkedList actual,LinkedList prev)throws StackOverflowError  {
 		if(actual == null) {
 			return false;
 		}
@@ -522,7 +514,7 @@ public class AlgorithmsRace {
 		return result;
 	}
 	
-	public boolean delateBinaryTreeR(long n) {
+	public boolean delateBinaryTreeR(long n)throws StackOverflowError  {
 		boolean result = false;
 		if(binaryTree==null) {
 			return false;
@@ -551,7 +543,7 @@ public class AlgorithmsRace {
 		return result;
 	}
 	
-	private SearchBinaryTree delateBinaryTreeRB(long n,SearchBinaryTree actual) {
+	private SearchBinaryTree delateBinaryTreeRB(long n,SearchBinaryTree actual) throws StackOverflowError {
 		if(actual==null) {
 			return actual;
 		}
@@ -566,7 +558,7 @@ public class AlgorithmsRace {
 		return delateBinaryTreeRB(n,actual);
 	}
 	
-	private SearchBinaryTree delateBinaryTreeRR(SearchBinaryTree actual, SearchBinaryTree prev) {
+	private SearchBinaryTree delateBinaryTreeRR(SearchBinaryTree actual, SearchBinaryTree prev) throws StackOverflowError {
 		if(actual.getRight()==null) {
 			prev.setRight(actual.getLeft());
 			return actual;
@@ -576,8 +568,10 @@ public class AlgorithmsRace {
 		return delateBinaryTreeRR(actual,prev);
 	}
 	
-	public double progressBar(long n, long k) {
-		return n/k;
+	private void progressBar(double n, double k) {
+		
+		progress= n/k;
+		System.out.println(n+"/"+k+"="+progress);
 	}
 
 	public double getProgress() {

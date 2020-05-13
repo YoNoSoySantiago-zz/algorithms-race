@@ -2,6 +2,7 @@ package ui;
 
 import java.io.IOException;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -29,6 +30,10 @@ public class AlgorithmsRaceGUI {
 	private Stage window;
 	private boolean move;
 	private boolean arrayListRunning,linkedListRunning,binaryTreeRunning;
+	
+	public final static String ARRAY_LIST = "DBZ";
+	public final static String LINKED_LIST = "JOJOS";
+	public final static String ABB="NARUTO";
 	
 	public AlgorithmsRaceGUI(AlgorithmsRace ar,Stage win) {
 		window = win;
@@ -162,6 +167,8 @@ public class AlgorithmsRaceGUI {
         	delateSelect.setDisable(true);
         	iterativeSelect.setDisable(true);
         	recursiveSelect.setDisable(true);
+        	loadingProgress.setVisible(true);
+        	labelLoading.setVisible(true);
         	time = "00:00:00";
         	updateTimerAL();
         	updateTimerLE();
@@ -169,6 +176,24 @@ public class AlgorithmsRaceGUI {
         	//////////////////////////////////////////////////////////
         	if(!addSelect.isSelected()) {
         		preparing.start();
+        		new Thread() {
+        			public void run() {
+        				while(isRunning) {
+        					Platform.runLater(new Thread() {
+            					public void run() {
+            						updateProgress();
+            						System.out.println(algorithmsRace.getProgress());
+            					}
+            				});
+        					try {
+    							Thread.sleep(10);
+    						} catch (InterruptedException e) {
+    							e.printStackTrace();
+    						}
+        				}
+        				
+        			}
+        		}.start();
         	}else {
         		eneableStart();
         	}
@@ -184,6 +209,8 @@ public class AlgorithmsRaceGUI {
     }
     
     public void  eneableStart() {
+    	loadingProgress.setVisible(false);
+    	labelLoading.setVisible(false);
     	isRunning=false;
     	btnRun.setVisible(true);
     }
@@ -219,13 +246,46 @@ public class AlgorithmsRaceGUI {
     	isRunning = true;
     	/////////////////////////////////////////////////////////////
     	timer.start();
-    	
+  
     	arrayListThread.start();
     	linkedListThread.start();
     	binaryTreeThread.start();
     	
     	////////////////////////////////////////////////////////////
-    	
+    	new Thread() {
+    		public void run() {
+    			while(isRunning) {
+    				
+    				Platform.runLater(new Thread() {
+    					public void run() {
+    						if(!arrayListThread.isAlive()) {
+            	    			if(arrayListRunning) {
+            	    				surrenderAL();
+            	    			}
+            	    		}
+            	    		if(!linkedListThread.isAlive()) {
+            	    			if(linkedListRunning) {
+            	    				surrenderLE();
+            	    			}
+            	    		}
+            	    		if(!binaryTreeThread.isAlive()) {
+            	    			if(binaryTreeRunning) {
+            	    				surrenderAbb();
+            	    			}
+            	    		}
+            	    		finishRun();
+    					}
+    					
+    				});
+    				try {
+						Thread.sleep(100);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+    	    		
+    	    	}
+    		}
+    	}.start();
     }
     
     public void setArrayListRunning(boolean arrayListRunning) {
@@ -312,6 +372,21 @@ public class AlgorithmsRaceGUI {
     public void updateProgress() {
     	loadingProgress.setProgress(algorithmsRace.getProgress());
     	
+    }
+    
+    public void surrenderAL() {
+    	arrayListRunning = false;
+    	arrayListTime.setText("SURRENDER");
+    }
+    
+    public void surrenderLE() {
+    	linkedListRunning = false;
+    	linkedListTime.setText("SURRENDER");
+    }
+    
+    public void surrenderAbb() {
+    	binaryTreeRunning=false;
+    	abbTime.setText("SURRENDER");
     }
 
 	public boolean isRunning() {

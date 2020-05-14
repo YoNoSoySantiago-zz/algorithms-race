@@ -17,6 +17,7 @@ public class PrepareRaceThread extends Thread{
 	@Override
 	public void run() {
 		algorithmsRace.prepareRace(n);
+		algorithmsRace.setOn(false);
 		Platform.runLater(new Thread() {
 			public void run() {
 				alGUI.eneableStart();

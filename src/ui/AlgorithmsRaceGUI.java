@@ -270,6 +270,7 @@ public class AlgorithmsRaceGUI {
         	
         	/////////////////////////////////////////////////////////////////////////////////////////////////////
         	isRunning=true;
+        	algorithmsRace.setOn(true);
         	waitingGIF.setVisible(true);
         	btnPrepare.setDisable(true);
         	addSelect.setDisable(true);

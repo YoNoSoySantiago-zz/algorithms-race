@@ -200,7 +200,7 @@ public class AlgorithmsRace {
 	
 	public void prepareRace(long n) {
 		Random rnd = new Random();
-		for (int i = 0; i < n; i++) {
+		for (int i = 0; i < n&&on; i++) {
 			progress = (double)(i+1)/(double)n;
 			long k = rnd.nextLong();
 			arrayList.add(k);

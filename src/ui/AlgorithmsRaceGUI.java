@@ -323,7 +323,7 @@ public class AlgorithmsRaceGUI {
     
     @FXML
     void btnRun(ActionEvent event) throws InterruptedException {
-    	
+    	algorithmsRace.setOn(true);
     	btnViewRace.setVisible(true);
     	btnRun.setDisable(true);
     	btnRun.setVisible(false);

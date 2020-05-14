@@ -10,7 +10,6 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Label alignment="CENTER_RIGHT" layoutX="110.0" layoutY="116.0" prefHeight="25.0" prefWidth="90.0" text="Array List:">
@@ -80,10 +79,5 @@
             <Font name="Bodoni MT" size="12.0" />
          </font>
       </Label>
-      <Button fx:id="btnStop" layoutX="427.0" layoutY="294.0" mnemonicParsing="false" onAction="#btnStop" prefHeight="24.0" prefWidth="51.0" text="Stop">
-         <font>
-            <Font name="Bookman Old Style" size="12.0" />
-         </font>
-      </Button>
    </children>
 </Pane>

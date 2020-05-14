@@ -50,15 +50,27 @@ public class AlgorithmsRaceGUI {
 	private Image imageAbb;
 	private Image waiting;
 	
-	public final static File ARRAY_LIST = new File("data/imgs/DBZ.jpg");
-	public final static File LINKED_LIST = new File("data/imgs/JOJOS.jpg");
-	public final static File ABB = new File("data/imgs/NARUTO.jpg");
+	public final static File ARRAY_LIST = new File("data/imgs/NARUTO.gif");
+	public final static File LINKED_LIST = new File("data/imgs/JOJOS.gif");
+	public final static File ABB = new File("data/imgs/DBZ.gif");
 	public final static File WAITING = new File("data/imgs/WAITING.gif");
+	
+	public final static String GOKU_WIN = "Tus niveles de energía disminuyen con cada golpe, de hecho, ya no eres un reto para mí";
+	public final static String GOKU_LOSE="Ok, ahora al plan B, sea lo que sea";
+	public final static String GOKU_SURRENDER="Esto es mi culpa, ¡maldición! Freezer tenía razón sobre mí. Debí acabarlo cuando tuve la oportunidad";
+	
+	public final static String NARUTO_WIN="El trabajo duro es inútil para aquellos que no creen en sí mismos";
+	public final static String NARUTO_LOSE="Un verdadero héroe siempre llega tarde";
+	public final static String NARUTO_SURRENDER="Fracasar no te da una razón para renunciar mientras tengas fe";
+	
+	public final static String DIO_WIN="El tiempo no espera a nadie";
+	public final static String DIO_LOSE="Algún día no perderé contra nadie";
+	public final static String DIO_SURRENDER="Si algo he aprendido en mi corta vida, es que mientras más planes haces, más posibilidades hay de que fallen";
 	
 	public AlgorithmsRaceGUI(AlgorithmsRace ar,Stage win) {
 		window = win;
 		algorithmsRace =ar;
-		time = " ";
+		time = "";
 		timeAL="";
 		timeLE="";
 		timeAbb="";
@@ -194,8 +206,6 @@ public class AlgorithmsRaceGUI {
     @FXML
     private Label abbText;
 
-    @FXML
-    private Button btnStop;
     
     ///////////////////////////////////////////////////////////////////////////////
     //StartFX.fxml
@@ -401,19 +411,6 @@ public class AlgorithmsRaceGUI {
         	loadingProgress.setVisible(true);
     	}
     }
-
-    @FXML
-    void btnStop(ActionEvent event) throws IOException {
-    	isRunning = false; 
-		algorithmsRace.setOn(false);
-		btnStop.setVisible(false);
-		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("StartFX.fxml"));
-    	fxmlLoader.setController(this);
-    	Pane pane = fxmlLoader.load();
-    	
-    	mainPane.getChildren().clear();
-    	mainPane.setCenter(pane);
-    }
     
     public void  eneableStart() {
     	loadingProgress.setVisible(false);
@@ -434,7 +431,34 @@ public class AlgorithmsRaceGUI {
         	delateSelect.setDisable(false);
         	iterativeSelect.setDisable(false);
         	recursiveSelect.setDisable(false);
+        	if(arrayListText!=null) {
+        		arrayListText.setText("");;
+        		linkedListText.setText("");
+        		abbText.setText("");
+        	}
+    	}else {
+    		if(!arrayListRunning&&linkedListRunning&&binaryTreeRunning) {
+    			if(arrayListText!=null) {
+    				arrayListText.setText(NARUTO_WIN);
+    				linkedListText.setText(DIO_LOSE);
+    				abbText.setText(GOKU_LOSE);
+    			}
+    		}else if(arrayListRunning&&!linkedListRunning&&binaryTreeRunning) {
+    			if(linkedListText!=null) {
+    				linkedListText.setText(DIO_WIN);
+    				arrayListText.setText(NARUTO_LOSE);
+    				abbText.setText(GOKU_LOSE);;
+    			}
+    			
+    		}else if(arrayListRunning&&linkedListRunning&&!binaryTreeRunning) {
+    			if(abbText!=null) {
+    				abbText.setText(GOKU_WIN);
+    				arrayListText.setText(NARUTO_LOSE);
+    				linkedListText.setText(DIO_LOSE);
+    			}
+    		}
     	}
+    	
     }
     
     
@@ -549,16 +573,25 @@ public class AlgorithmsRaceGUI {
     public void surrenderAL() {
     	arrayListRunning = false;
     	arrayListTime.setText("SURRENDER");
+    	if(arrayListText!=null) {
+    		arrayListText.setText(NARUTO_SURRENDER);
+    	}
     }
     
     public void surrenderLE() {
     	linkedListRunning = false;
     	linkedListTime.setText("SURRENDER");
+    	if(linkedListText!=null) {
+    		linkedListText.setText(DIO_SURRENDER);
+    	}
     }
     
     public void surrenderAbb() {
     	binaryTreeRunning=false;
     	abbTime.setText("SURRENDER");
+    	if(abbText!=null) {
+    		abbText.setText(GOKU_SURRENDER);
+    	}
     }
 
 	public boolean isRunning() {

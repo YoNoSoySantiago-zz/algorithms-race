@@ -8,6 +8,9 @@ public class AlgorithmsRace {
 	private LinkedList linkedList;
 	private SearchBinaryTree binaryTree;
 	
+	//To prepare Race only
+	private LinkedList last;
+	//////////////////////////////
 	private boolean on;
 	private double progress;
 	private double arrayListProgress;
@@ -201,10 +204,20 @@ public class AlgorithmsRace {
 			progress = (double)(i+1)/(double)n;
 			long k = rnd.nextLong();
 			arrayList.add(k);
-			addLinkedList(k);
+			addPrepareLinkedList(k);
 			addBinaryTree(k);
 		}
 		
+	}
+	public void addPrepareLinkedList(long n) {
+		LinkedList nuevo = new LinkedList(n);
+		if(linkedList==null) {
+			linkedList=nuevo;
+			last=linkedList;
+		}else {
+			last.setNext(nuevo);
+			last = last.getNext();
+		}
 	}
 	
 	public void addArrayList(long n) {

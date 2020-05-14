@@ -8,13 +8,22 @@ public class AlgorithmsRace {
 	private LinkedList linkedList;
 	private SearchBinaryTree binaryTree;
 	
+	private boolean on;
 	private double progress;
+	private double arrayListProgress;
+	private double linkedListProgress;
+	private double binaryTreeProgress;
 	
+	public void setOn(boolean on) {
+		this.on = on;
+	}
+
 	public AlgorithmsRace() {
 		arrayList=new ArrayList<Long>();
 		linkedList=null;
 		binaryTree=null;
 		progress = 0;
+		on = true;
 	}
 	
 	public void startRace(int algorithm, int mode, int data,long n) throws StackOverflowError {
@@ -26,21 +35,22 @@ public class AlgorithmsRace {
 				switch(algorithm) {
 				case 1:
 					
-					for (int i = 0; i < n; i++) {
-						
+					for (int i = 0;i < n && on; i++) {
+						arrayListProgress = (double)(i+1)/(double)n;
 						k= rnd.nextLong();
 						addArrayList(k);
 					}
 					break;
 				case 2:
-					for (int i = 0; i < n; i++) {
-						
+					for (int i = 0;i < n && on; i++) {
+						arrayListProgress = (double)(i+1)/(double)n;
 						k= rnd.nextLong();
 						searchArrayList(k);
 					}
 					break;
 				case 3:
-					for (int i = 0; i < n; i++) {
+					for (int i = 0; i < n && on; i++) {
+						arrayListProgress = (double)(i+1)/(double)n;
 						k= rnd.nextLong();
 						delateArrayList(k);
 					}
@@ -50,20 +60,23 @@ public class AlgorithmsRace {
 			case 2:
 				switch(algorithm) {
 				case 1:
-					for (int i = 0; i < n; i++) {
+					for (int i = 0; i < n && on; i++) {
+						linkedListProgress = (double)(i+1)/(double)n;
 						k= rnd.nextLong();
 						addLinkedList(k);
 					}
 					break;
 				case 2:
-					for (int i = 0; i < n; i++) {
+					for (int i = 0; i < n && on; i++) {
+						linkedListProgress = (double)(i+1)/(double)n;
 						k= rnd.nextLong();
 						searchLinkedList(k);
 						
 					}
 					break;
 				case 3:
-					for (int i = 0; i < n; i++) {
+					for (int i = 0; i < n && on; i++) {
+						linkedListProgress = (double)(i+1)/(double)n;
 						k= rnd.nextLong();
 						delateLinkedList(k);
 					}
@@ -73,19 +86,22 @@ public class AlgorithmsRace {
 			case 3:
 				switch(algorithm) {
 				case 1:
-					for (int i = 0; i < n; i++) {
+					for (int i = 0; i < n && on; i++) {
+						binaryTreeProgress = (double)(i+1)/(double)n;
 						k= rnd.nextLong();
 						addBinaryTree(k);
 					}
 					break;
 				case 2:
-					for (int i = 0; i < n; i++) {
+					for (int i = 0; i < n && on; i++) {
+						binaryTreeProgress = (double)(i+1)/(double)n;
 						k= rnd.nextLong();
 						searchBinaryTree(k);
 					}
 					break;
 				case 3:
-					for (int i = 0; i < n; i++) {
+					for (int i = 0; i < n && on; i++) {
+						binaryTreeProgress = (double)(i+1)/(double)n;
 						k= rnd.nextLong();
 						delateBinaryTree(k);
 					}
@@ -97,19 +113,22 @@ public class AlgorithmsRace {
 			case 1:
 				switch(algorithm) {
 				case 1:
-					for (int i = 0; i < n; i++) {
+					for (int i = 0; i < n && on; i++) {
+						arrayListProgress = (double)(i+1)/(double)n;
 						k= rnd.nextLong();
 						addArrayList(k);
 					}
 					break;
 				case 2:
-					for (int i = 0; i < n; i++) {
+					for (int i = 0; i < n && on; i++) {
+						arrayListProgress = (double)(i+1)/(double)n;;
 						k= rnd.nextLong();
 						searchArrayListR(k);
 					}
 					break;
 				case 3:
-					for (int i = 0; i < n; i++) {
+					for (int i = 0; i < n && on; i++) {
+						arrayListProgress = (double)(i+1)/(double)n;;
 						k= rnd.nextLong();
 						delateArrayListR(k);
 					}
@@ -119,19 +138,22 @@ public class AlgorithmsRace {
 			case 2:
 				switch(algorithm) {
 				case 1:
-					for (int i = 0; i < n; i++) {
+					for (int i = 0; i < n && on; i++) {
+						linkedListProgress = (double)(i+1)/(double)n;;
 						k= rnd.nextLong();
 						addLinkedListR(k);
 					}
 					break;
 				case 2:
-					for (int i = 0; i < n; i++) {
+					for (int i = 0; i < n && on; i++) {
+						linkedListProgress = (double)(i+1)/(double)n;;
 						k= rnd.nextLong();
 						searchLinkedListR(k);
 					}
 					break;
 				case 3:
-					for (int i = 0; i < n; i++) {
+					for (int i = 0; i < n && on; i++) {
+						linkedListProgress = (double)(i+1)/(double)n;;
 						k= rnd.nextLong();
 						delateLinkedListR(k);
 					}
@@ -141,19 +163,22 @@ public class AlgorithmsRace {
 			case 3:
 				switch(algorithm) {
 				case 1:
-					for (int i = 0; i < n; i++) {
+					for (int i = 0; i < n && on; i++) {
+						binaryTreeProgress = (double)(i+1)/(double)n;;
 						k= rnd.nextLong();
 						addBinaryTreeR(k);
 					}
 					break;
 				case 2:
-					for (int i = 0; i < n; i++) {
+					for (int i = 0; i < n && on; i++) {
+						binaryTreeProgress = (double)(i+1)/(double)n;;
 						k= rnd.nextLong();
 						searchBinaryTreeR(k);
 					}
 					break;
 				case 3:
-					for (int i = 0; i < n; i++) {
+					for (int i = 0; i < n && on; i++) {
+						binaryTreeProgress = (double)(i+1)/(double)n;;
 						k= rnd.nextLong();
 						delateBinaryTreeR(k);
 					}
@@ -173,7 +198,7 @@ public class AlgorithmsRace {
 	public void prepareRace(long n) {
 		Random rnd = new Random();
 		for (int i = 0; i < n; i++) {
-			progressBar(i+1,n);
+			progress = (double)(i+1)/(double)n;
 			long k = rnd.nextLong();
 			arrayList.add(k);
 			addLinkedList(k);
@@ -567,15 +592,21 @@ public class AlgorithmsRace {
 		actual = actual.getRight();
 		return delateBinaryTreeRR(actual,prev);
 	}
-	
-	private void progressBar(double n, double k) {
-		
-		progress= n/k;
-		System.out.println(n+"/"+k+"="+progress);
-	}
 
 	public double getProgress() {
 		return progress;
+	}
+
+	public double getArrayListProgress() {
+		return arrayListProgress;
+	}
+
+	public double getLinkedListProgress() {
+		return linkedListProgress;
+	}
+
+	public double getBinaryTreeProgress() {
+		return binaryTreeProgress;
 	}
 	
 	

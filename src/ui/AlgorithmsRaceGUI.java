@@ -1,19 +1,24 @@
 package ui;
 
+import java.io.File;
 import java.io.IOException;
 
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -21,37 +26,79 @@ import model.AlgorithmsRace;
 import thread.AlgorithmsThread;
 import thread.ChronometerThread;
 import thread.PrepareRaceThread;
+import thread.ProgressRaceThread;
 
 public class AlgorithmsRaceGUI {
 	
-	private AlgorithmsRace algorithmsRace;
-	private boolean isRunning;
-	private String time;
+	private AlgorithmsThread arrayListThread;
+	private AlgorithmsThread linkedListThread;
+	private AlgorithmsThread binaryTreeThread;
+	
 	private Stage window;
+	private String time;
+	private String timeAL;
+	private String timeLE;
+	private String timeAbb;
+	private AlgorithmsRace algorithmsRace;
+	
+	private boolean isRunning;
 	private boolean move;
 	private boolean arrayListRunning,linkedListRunning,binaryTreeRunning;
 	
-	public final static String ARRAY_LIST = "DBZ";
-	public final static String LINKED_LIST = "JOJOS";
-	public final static String ABB="NARUTO";
+	private Image imageAL;
+	private Image imageLE;
+	private Image imageAbb;
+	private Image waiting;
+	
+	public final static File ARRAY_LIST = new File("data/imgs/DBZ.jpg");
+	public final static File LINKED_LIST = new File("data/imgs/JOJOS.jpg");
+	public final static File ABB = new File("data/imgs/NARUTO.jpg");
+	public final static File WAITING = new File("data/imgs/WAITING.gif");
 	
 	public AlgorithmsRaceGUI(AlgorithmsRace ar,Stage win) {
 		window = win;
 		algorithmsRace =ar;
-		isRunning = false;
 		time = " ";
+		timeAL="";
+		timeLE="";
+		timeAbb="";
+		
+		isRunning = false;
 		move = true;
 		arrayListRunning=false;
 		linkedListRunning=false;
 		binaryTreeRunning=false;
+		
+		imageAL = new Image(ARRAY_LIST.toURI().toString());
+		imageLE = new Image(LINKED_LIST.toURI().toString());
+		imageAbb = new Image(ABB.toURI().toString());
+		waiting = new Image(WAITING.toURI().toString());
 	}
 	
 	public void initialize() throws IOException {
+		if(arrayListImage!=null) {
+			arrayListImage.setImage(imageAL);
+			linkedListImage.setImage(imageLE);
+			abbImage.setImage(imageAbb);
+			waitingGIF.setImage(waiting);
+			arrayListTime.setText(timeAL);
+			linkedListTime.setText(timeLE);
+			abbTime.setText(timeAbb);
+		}else {
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("StartFX.fxml"));
+			fxmlLoader.setController(this);
+			Pane pane = fxmlLoader.load();
+			
+			mainPane.getChildren().clear();
+			mainPane.setCenter(pane);
+		}
+		
 		window.setOnCloseRequest(new EventHandler<WindowEvent>() {
 			
 			@Override
 			public void handle(WindowEvent event) {
-				isRunning = false;
+				isRunning = false; 
+				algorithmsRace.setOn(false);
 				System.out.println("Closing the window!");
 			}
 		});
@@ -62,6 +109,12 @@ public class AlgorithmsRaceGUI {
 	private BorderPane mainPane;
 	
 	//Start
+    @FXML
+    private Button btnViewRace;
+
+    @FXML
+    private ImageView waitingGIF;
+    
     @FXML
     private TextField textN;
 
@@ -109,7 +162,53 @@ public class AlgorithmsRaceGUI {
 
     @FXML
     private Label labelLoading;
+
+    @FXML
+    private ImageView arrayListImage;
+
+    @FXML
+    private ImageView linkedListImage;
+
+    @FXML
+    private ImageView abbImage;
     
+    //ViewRace.fxml
+    @FXML
+    private ProgressBar arrayListProgress;
+
+    @FXML
+    private ProgressBar linkedListProgress;
+
+    @FXML
+    private ProgressBar abbProgress;
+
+    @FXML
+    private Button btnBack;
+
+    @FXML
+    private Label arrayListText;
+
+    @FXML
+    private Label linkedListText;
+
+    @FXML
+    private Label abbText;
+
+    @FXML
+    private Button btnStop;
+    
+    ///////////////////////////////////////////////////////////////////////////////
+    //StartFX.fxml
+    ///////////////////////////////////////////////////////////////////////////////
+    @FXML
+    void btnViewRace(ActionEvent event) throws IOException {
+    	FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ViewRaceFX.fxml"));
+    	fxmlLoader.setController(this);
+    	Pane pane = fxmlLoader.load();
+    	
+    	mainPane.getChildren().clear();
+    	mainPane.setCenter(pane);
+    }
 
     @FXML
     void iterativeSelect(ActionEvent event) {
@@ -161,6 +260,7 @@ public class AlgorithmsRaceGUI {
         	
         	/////////////////////////////////////////////////////////////////////////////////////////////////////
         	isRunning=true;
+        	waitingGIF.setVisible(true);
         	btnPrepare.setDisable(true);
         	addSelect.setDisable(true);
         	searchSelect.setDisable(true);
@@ -170,6 +270,9 @@ public class AlgorithmsRaceGUI {
         	loadingProgress.setVisible(true);
         	labelLoading.setVisible(true);
         	time = "00:00:00";
+        	timeAL =time;
+        	timeLE =time;
+        	timeAbb=time;
         	updateTimerAL();
         	updateTimerLE();
         	updateTimerAbb();
@@ -182,7 +285,6 @@ public class AlgorithmsRaceGUI {
         					Platform.runLater(new Thread() {
             					public void run() {
             						updateProgress();
-            						System.out.println(algorithmsRace.getProgress());
             					}
             				});
         					try {
@@ -208,28 +310,10 @@ public class AlgorithmsRaceGUI {
     	
     }
     
-    public void  eneableStart() {
-    	loadingProgress.setVisible(false);
-    	labelLoading.setVisible(false);
-    	isRunning=false;
-    	btnRun.setVisible(true);
-    }
-    
-    public void finishRun() {
-    	if(!arrayListRunning&&!linkedListRunning&!binaryTreeRunning) {
-    		isRunning = false;
-    		btnRun.setDisable(false);
-        	btnPrepare.setDisable(false);
-        	addSelect.setDisable(false);
-        	searchSelect.setDisable(false);
-        	delateSelect.setDisable(false);
-        	iterativeSelect.setDisable(false);
-        	recursiveSelect.setDisable(false);
-    	}
-    }
-    
     @FXML
     void btnRun(ActionEvent event) throws InterruptedException {
+    	
+    	btnViewRace.setVisible(true);
     	btnRun.setDisable(true);
     	btnRun.setVisible(false);
     	arrayListRunning =true;
@@ -240,9 +324,13 @@ public class AlgorithmsRaceGUI {
     	int mode = iterativeSelect.isSelected()?1:2;
     	long n = Long.parseLong(textN.getText());
     	ChronometerThread timer = new ChronometerThread(this);
-    	AlgorithmsThread arrayListThread = new AlgorithmsThread(this,algorithmsRace,algorithm,mode,1,n);
-    	AlgorithmsThread linkedListThread = new AlgorithmsThread(this,algorithmsRace,algorithm,mode,2,n);
-    	AlgorithmsThread binaryTreeThread = new AlgorithmsThread(this,algorithmsRace,algorithm,mode,3,n);
+    	arrayListThread = new AlgorithmsThread(this,algorithmsRace,algorithm,mode,1,n);
+    	linkedListThread = new AlgorithmsThread(this,algorithmsRace,algorithm,mode,2,n);
+    	binaryTreeThread = new AlgorithmsThread(this,algorithmsRace,algorithm,mode,3,n);
+    	ProgressRaceThread progresALThread = new ProgressRaceThread(this,1);
+    	ProgressRaceThread progresLEThread = new ProgressRaceThread(this,2);
+    	ProgressRaceThread progresAbbThread = new ProgressRaceThread(this,3);
+    	
     	isRunning = true;
     	/////////////////////////////////////////////////////////////
     	timer.start();
@@ -251,6 +339,9 @@ public class AlgorithmsRaceGUI {
     	linkedListThread.start();
     	binaryTreeThread.start();
     	
+    	progresALThread.start();
+    	progresLEThread.start();
+    	progresAbbThread.start();
     	////////////////////////////////////////////////////////////
     	new Thread() {
     		public void run() {
@@ -287,6 +378,66 @@ public class AlgorithmsRaceGUI {
     		}
     	}.start();
     }
+    
+    //////////////////////////////////////////////////////////////////////
+    //ViewRace.fxml
+    //////////////////////////////////////////////////////////////////////
+    @FXML
+    void btnBack(ActionEvent event) throws IOException {
+    	FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("StartFX.fxml"));
+    	fxmlLoader.setController(this);
+    	Pane pane = fxmlLoader.load();
+    	
+    	mainPane.getChildren().clear();
+    	mainPane.setCenter(pane);
+    	if(isRunning) {
+    		btnViewRace.setVisible(true);
+    		btnPrepare.setDisable(true);
+        	addSelect.setDisable(true);
+        	searchSelect.setDisable(true);
+        	delateSelect.setDisable(true);
+        	iterativeSelect.setDisable(true);
+        	recursiveSelect.setDisable(true);
+        	loadingProgress.setVisible(true);
+    	}
+    }
+
+    @FXML
+    void btnStop(ActionEvent event) throws IOException {
+    	isRunning = false; 
+		algorithmsRace.setOn(false);
+		btnStop.setVisible(false);
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("StartFX.fxml"));
+    	fxmlLoader.setController(this);
+    	Pane pane = fxmlLoader.load();
+    	
+    	mainPane.getChildren().clear();
+    	mainPane.setCenter(pane);
+    }
+    
+    public void  eneableStart() {
+    	loadingProgress.setVisible(false);
+    	labelLoading.setVisible(false);
+    	isRunning=false;
+    	waitingGIF.setVisible(false);
+    	btnRun.setVisible(true);
+    }
+    
+    public void finishRun() {
+    	if(!arrayListRunning&&!linkedListRunning&!binaryTreeRunning) {
+    		isRunning = false;
+    		btnRun.setDisable(false);
+    		btnViewRace.setVisible(false);
+        	btnPrepare.setDisable(false);
+        	addSelect.setDisable(false);
+        	searchSelect.setDisable(false);
+        	delateSelect.setDisable(false);
+        	iterativeSelect.setDisable(false);
+        	recursiveSelect.setDisable(false);
+    	}
+    }
+    
+    
     
     public void setArrayListRunning(boolean arrayListRunning) {
 		this.arrayListRunning = arrayListRunning;
@@ -358,20 +509,41 @@ public class AlgorithmsRaceGUI {
     }
     
     public void updateTimerAL() {
+    	timeAL = time;
     	arrayListTime.setText(time);
 	}
     
     public void updateTimerLE() {
+    	timeLE =time;
     	linkedListTime.setText(time);
     }
     
     public void updateTimerAbb() {
+    	timeAbb = time;
     	abbTime.setText(time);
     }
     
     public void updateProgress() {
     	loadingProgress.setProgress(algorithmsRace.getProgress());
+    }
+    
+    public void updateProgressAL() {
+    	if(arrayListProgress!=null) {
+    		arrayListProgress.setProgress(algorithmsRace.getArrayListProgress());
+    	}
     	
+    }
+    
+    public void updateProgressLE() {
+    	if(linkedListProgress!=null){
+    		linkedListProgress.setProgress(algorithmsRace.getLinkedListProgress());
+    	}
+    }
+    
+    public void updateProgressAbb() {
+    	if(abbProgress!=null) {
+    		abbProgress.setProgress(algorithmsRace.getBinaryTreeProgress());
+    	}
     }
     
     public void surrenderAL() {
